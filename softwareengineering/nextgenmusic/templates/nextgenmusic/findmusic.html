@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
+    {% load static %}
     <head>
-        <link rel="Shortcut icon" href="images/logo.ico" />
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
@@ -11,23 +11,23 @@
         <title>NGM - Free Streaming Service</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="{% static 'nextgenmusic/css/bootstrap.css' %}" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="/css/NMG.css" rel="stylesheet" type="text/css">
+        <link href="{% static 'nextgenmusic/css/NMG.css' %}" rel="stylesheet" type="text/css">
 
     </head>
 
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html"> <img src="images/logo.png" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <a class="navbar-brand" href="{% url 'index' %}"> <img src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
             </form>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             </div>
-            <a class="btn btn-secondary" href="joinus.html"> Dołącz do nas! </a>
+            <a class="btn btn-secondary" href="{% url 'joinus' %}"> Dołącz do nas! </a>
         </nav>
         <br>
         <br> 
