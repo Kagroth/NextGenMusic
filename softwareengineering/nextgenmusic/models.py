@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-form django_countries.fields import CountryField
+from django_countries.fields import CountryField
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -8,11 +8,11 @@ class Profile(models.Model):
 	country = CountryField()
 
 class Author(models.Model):
-	name = models.CharField(max_lenght=100)
-	country = CountryFIeld()
+	name = models.CharField(max_length=100)
+	country = CountryField()
 	
 class Song(models.Model):
-	title = models.CharField(max_lenght=50)
+	title = models.CharField(max_length=50)
 	release_date = models.DateField()
 	
 class Song_Author(models.Model):
@@ -20,15 +20,15 @@ class Song_Author(models.Model):
 	id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
 	
 class Playlist(models.Model):
-	id_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-	name = models.CharField(max_lenght=50)
+	id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+	name = models.CharField(max_length=50)
 	
 class Song_Playlist(models.Model):
 	id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
 	id_playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
 	
 class Listen_count:
-	id_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	id_user = models.ForeignKey(User, on_delete=models.CASCADE)
 	id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
 	count = models.IntegerField()
 	
