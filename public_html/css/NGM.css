@@ -1,0 +1,20 @@
+@font-face {
+    font-family: Nebulous;
+    src: url(fonts/NebulousContent.otf);
+}
+
+body {
+    font-family: monospace;
+    background: red;
+}
+
+div {
+    font-family: Nebulous;
+    color: red;
+    background: red;
+}
+
+.input-group{
+    margin: 20px;
+    border-top: 20px;
+}
