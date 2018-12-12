@@ -2,6 +2,7 @@ FROM python:3
 ADD . ./workdir
 RUN pip install --user -r ./workdir/requirements.txt
 RUN pip install django-countries
+RUN pip install mutagen
 RUN python ./workdir/manage.py makemigrations
 RUN python ./workdir/manage.py migrate
 EXPOSE 8000
