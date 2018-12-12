@@ -21,7 +21,11 @@
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-dark bg-dark">
             <a class="navbar-brand" href="{% url 'index' %}"> <img src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
+            {% if request.user.is_authenticated %}
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ request.user.username }}</a>
+            {% else %}
             <a class="btn btn-secondary" href="{% url 'joinus' %}"> Dołącz do nas! </a>
+            {% endif %}
         </nav>
         <br>
         <br> 
