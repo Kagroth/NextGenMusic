@@ -58,7 +58,8 @@
                     <div class="col">
                         <h2 class="text-primary text-center">Rejestracja</h2>
                     </div>
-                    <form>
+                    <form name="registerForm" method="POST" action="{% url 'signup' %}">
+                        {% csrf_token %}
                         <div class="form-row">
                             <div class="col mb-2">
                                 <input id="Imie" type="text" class="form-control text-center" name="name" placeholder="Imie">
