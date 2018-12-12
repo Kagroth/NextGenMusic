@@ -12,7 +12,6 @@
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
-
         <!-- Custom styles for this template -->
         <link href="/css/NMG.css" rel="stylesheet" type="text/css">
 
@@ -65,15 +64,19 @@
                     <div class="col">
                         <h2 class="text-secondary text-center">Playlisty</h2>
                     </div>
+
                     <table class="table table-hover table-dark">
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <form class="form-inline">
-                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></button>
-                                        <div class="form-group form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                    <form class="form">
+                                        <div class="form-row">
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" type="Submit"><img src="css/icons/add.png" width="20" height="20" alt="logo"></button> 
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control" id="inlineFormInputName2" placeholder="Nazwa Playlisty">
+                                            </div>
                                         </div>
                                     </form>
                                 </th>
@@ -81,13 +84,38 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Lights</td>
+                                <td>
+                                    <form class="form">
+                                        <div class="form-row">
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" type="Submit"><img src="css/icons/remove.png" width="20" height="20" alt="logo"></button> 
+                                            </div>
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" type="Submit"><img src="css/icons/edit.png" width="20" height="20" alt="logo"></button> 
+                                            </div>
+                                            <div class="col-10">
+                                                <label for="colFormLabel" class="col-form-label">Playlist One</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Flying High</td>
-                            </tr>
-                            <tr>
-                                <td>Ark</td>
+                                <td>
+                                    <form class="form">
+                                        <div class="form-row">
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" type="Submit"><img src="css/icons/remove.png" width="20" height="20" alt="logo"></button> 
+                                            </div>
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" type="Submit"><img src="css/icons/edit.png" width="20" height="20" alt="logo"></button> 
+                                            </div>
+                                            <div class="col-10">
+                                                <label for="colFormLabel" class="col-form-label">Playlist Two</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
