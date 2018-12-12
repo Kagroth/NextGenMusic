@@ -4,6 +4,7 @@ from django.template import loader
 from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
+from .utils import calculateSongDuration, getSongDataAsDict
 
 # Create your views here.
 
@@ -14,19 +15,30 @@ def viewsongs(request):
     songs = []
     id = 1
     musicFolder = Path('nextgenmusic/music')
-    for musicFile in musicFolder.iterdir():
-        audiofile = EasyMP3(musicFile)
-        #okreslenie liczby minut
-        minutes = int(audiofile.info.length // 60)
-        #okreslenie liczby sekund oraz dodatnie do liczby minut
-        seconds = round(minutes + audiofile.info.length % 60)
-        duration = str(minutes) + ":" + str(seconds)
-        songs.append(
-            {'id': id,
-             'artist': audiofile['artist'],
-             'title': audiofile['title'][0], # tytul jest zawsze jeden, wiec biore pierwszy element
-             'duration': duration})
-        id += 1
+    if request.GET.get('search') is None:
+        for musicFile in musicFolder.iterdir():
+            audiofile = EasyMP3(musicFile)
+            duration = calculateSongDuration(audiofile)
+            songs.append(getSongDataAsDict(audiofile, id))
+            id += 1
+    else:
+        toSearch = request.GET['search'].lower()
+        for musicFile in musicFolder.iterdir():
+            audiofile = EasyMP3(musicFile)
+
+            if toSearch in audiofile['title'][0].lower():
+                duration = calculateSongDuration(audiofile)
+                songs.append(getSongDataAsDict(audiofile, id))
+                id += 1
+                continue
+            else:
+                for artist in audiofile['artist']:
+                    if toSearch in artist.lower():
+                        duration = calculateSongDuration(audiofile)
+                        songs.append(getSongDataAsDict(audiofile, id))
+                        id += 1
+                        break
+
     return render(request, 'nextgenmusic/findmusic.html', {'songs': songs})
 
 def joinus(request):
