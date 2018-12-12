@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
-from django.template import loader
+from django.contrib.auth import authenticate
 from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
@@ -21,7 +21,7 @@ def viewsongs(request):
         for musicFile in musicFolder.iterdir():
             audiofile = EasyMP3(musicFile)
             duration = calculateSongDuration(audiofile)
-            songs.append(getSongDataAsDict(audiofile, id))
+            songs.append(getSongDataAsDict(audiofile, duration, id))
             id += 1
     else:
         toSearch = request.GET['search'].lower()
@@ -30,14 +30,14 @@ def viewsongs(request):
 
             if toSearch in audiofile['title'][0].lower():
                 duration = calculateSongDuration(audiofile)
-                songs.append(getSongDataAsDict(audiofile, id))
+                songs.append(getSongDataAsDict(audiofile, duration, id))
                 id += 1
                 continue
             else:
                 for artist in audiofile['artist']:
                     if toSearch in artist.lower():
                         duration = calculateSongDuration(audiofile)
-                        songs.append(getSongDataAsDict(audiofile, id))
+                        songs.append(getSongDataAsDict(audiofile, duration, id))
                         id += 1
                         break
 
@@ -57,3 +57,21 @@ def signup(request):
         else:
             return HttpResponse(request.POST.get('repeat_password'))
     return HttpResponse(request.POST.get('name'))
+
+
+def loginuser(request):
+    if request.method == 'POST':
+        loginForm = LoginForm(request.POST)
+        if someLoginForm.is_valid():
+            user = authenticate(username=loginForm.email.split("@")[0], password=loginForm.password)
+
+            if user is not None:
+                login(request, user)
+                return HttpResponse("Zalogowano!")
+            else:
+                return HttpResponse("Bledne dane logowania!")
+        else:
+            return HttpResponse("Podano niepoprawne dane!")
+    else:
+        return HttpResponse("Nie podano wszystkich danych!")
+
