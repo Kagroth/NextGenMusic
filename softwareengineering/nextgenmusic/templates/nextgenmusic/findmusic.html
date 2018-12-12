@@ -51,24 +51,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% for song in songs %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Sappheiros</td>
-                                <td>Lights</td>
-                                <td>1000</td>
+                                <th scope="row">{{ song.id }}</th>
+                                <td>{% for artist in song.artist%}
+                                    {{ artist }}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ song.title }}</td>
+                                <td>{{ song.duration }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>FREDJI</td>
-                                <td>Flying High</td>
-                                <td>421</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Ship Wrek & Zookeepers</td>
-                                <td>Ark</td>
-                                <td>21</td>
-                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
