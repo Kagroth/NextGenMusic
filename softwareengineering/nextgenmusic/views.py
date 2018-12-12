@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
@@ -62,8 +62,8 @@ def signup(request):
 def loginuser(request):
     if request.method == 'POST':
         loginForm = LoginForm(request.POST)
-        if someLoginForm.is_valid():
-            user = authenticate(username=loginForm.email.split("@")[0], password=loginForm.password)
+        if loginForm.is_valid():
+            user = authenticate(username=request.POST.get('email').split('@')[0], password=request.POST.get('password'))
 
             if user is not None:
                 login(request, user)

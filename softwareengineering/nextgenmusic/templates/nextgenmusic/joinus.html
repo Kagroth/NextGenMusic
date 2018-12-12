@@ -37,7 +37,8 @@
                     <div class="col">
                         <h2 class="text-primary text-center">Logowanie</h2>
                     </div>
-                    <form>
+                    <form name="loginForm" method="POST" action="{% url 'loginuser' %}">
+                        {% csrf_token %}
                         <div class="form-row">
                             <div class="col mb-2">
                                 <input id="EmailLogin" type="text" class="form-control text-center" name="email" placeholder="Email">

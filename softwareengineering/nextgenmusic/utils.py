@@ -8,7 +8,7 @@ def calculateSongDuration(audiofile):
     duration = str(minutes) + ":" + str(seconds)
     return duration
 
-def getSongDataAsDict(audiofile, id):
+def getSongDataAsDict(audiofile, duration, id):
     return {'id': id,
      'artist': audiofile['artist'],
      'title': audiofile['title'][0],  # tytul jest zawsze jeden, wiec biore pierwszy element
