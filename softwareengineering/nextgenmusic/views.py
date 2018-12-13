@@ -19,7 +19,7 @@ def index(request):
 def viewsongs(request):
     songs = []
     id = 1
-    musicFolder = Path('music')
+    musicFolder = Path('./nextgenmusic/music')
     if request.GET.get('search') is None:
         for musicFile in musicFolder.iterdir():
             audiofile = EasyMP3(musicFile)
