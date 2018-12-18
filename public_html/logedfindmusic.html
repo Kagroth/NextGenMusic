@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <link rel="Shortcut icon" href="logo.ico" />
+        <link rel="Shortcut icon" href="images/logo.ico" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
@@ -12,6 +12,7 @@
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
+
         <!-- Custom styles for this template -->
         <link href="/css/NMG.css" rel="stylesheet" type="text/css">
 
@@ -21,13 +22,8 @@
         <nav class="navbar fixed-top navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html"> <img class="rounded-circle" src="images/logo.png" width="30" height="30" alt="logo"> Next Gen Music</a>
             <form class="form-inline my-2 my-lg-0">
-                <select class="custom-select mr-sm-2">
-                    <option selected>playlist one</option>
-                    <option value="1">next playlist</option>
-                    <option value="2">onemore</option>
-                    <option value="3">and last</option>
-                </select>
-                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Edytuj</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
             </form>
             <a class="navbar-brand" href="myprofile.html"> username <img class="rounded-circle" src="images/avatar.jpg" width="30" height="30" alt="logo"> </a>
         </nav>
@@ -37,7 +33,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                    <h2 class="text-secondary text-center">Nazwa playlisty</h2>
+                    <h1 class="text-primary text-center">Biblioteka utworów</h1>
                 </div>
             </div>
             <div class="row">
@@ -50,7 +46,7 @@
                                 <th scope="col">Wykonawca</th>
                                 <th scope="col">Tytuł</th>
                                 <th scope="col">Czas utworu</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Dodaj do</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,8 +56,17 @@
                                 <td>Lights</td>
                                 <td>1000</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/play.png" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <select class="custom-select mr-sm-2">
+                                            <option selected>playlist one</option>
+                                            <option value="1">next playlist</option>
+                                            <option value="2">onemore</option>
+                                            <option value="3">and last</option>
+                                        </select>
+                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                                            <img src="css/icons/add.png" alt="add" width="22" height="22">
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             <tr>
@@ -70,8 +75,17 @@
                                 <td>Flying High</td>
                                 <td>421</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/play.png" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <select class="custom-select mr-sm-2">
+                                            <option selected>playlist one</option>
+                                            <option value="1">next playlist</option>
+                                            <option value="2">onemore</option>
+                                            <option value="3">and last</option>
+                                        </select>
+                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                                            <img src="css/icons/add.png" alt="add" width="22" height="22">
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             <tr>
@@ -80,8 +94,17 @@
                                 <td>Ark</td>
                                 <td>21</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/stop.png" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <select class="custom-select mr-sm-2">
+                                            <option selected>playlist one</option>
+                                            <option value="1">next playlist</option>
+                                            <option value="2">onemore</option>
+                                            <option value="3">and last</option>
+                                        </select>
+                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                                            <img src="css/icons/add.png" alt="add" width="22" height="22">
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         </tbody>
@@ -89,10 +112,6 @@
                 </div>
             </div>
         </div>
-        <audio controls>
-            <source src="horse.ogg" type="audio/ogg">
-            <source src="horse.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
     </body>
+
 </html>
