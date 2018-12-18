@@ -31,4 +31,7 @@ class Listen_count:
 	id_user = models.ForeignKey(User, on_delete=models.CASCADE)
 	id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
 	count = models.IntegerField()
-	
+
+
+	#pobieranie playlist użytkownika
+	#pobieranie piosenek z playlisty
