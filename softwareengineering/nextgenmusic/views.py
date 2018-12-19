@@ -114,10 +114,15 @@ def profile(request):
 
 def playlist(request, playlist_name):
     if request.user.is_authenticated:
+        print("Bede pobieral playliste!")
+        playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
+        return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist})
         try:
+            print("Bede pobieral playliste!")
             playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
             return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist})
         except:
+            print("Nie znalazlem playlisty!")
             return redirect('profile')
     else:
         return redirect('index')
