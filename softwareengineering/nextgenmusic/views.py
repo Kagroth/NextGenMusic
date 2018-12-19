@@ -10,6 +10,7 @@ from datetime import timedelta
 from .utils import calculateSongDuration, getSongDataAsDict
 from .models import Playlist
 
+import os
 
 def index(request):
     return render(request, 'nextgenmusic/index.html')
@@ -18,7 +19,11 @@ def viewsongs(request):
     print("Pobieram piosenki!")
     songs = []
     id = 1
-    musicFolder = Path('./nextgenmusic/static/nextgenmusic/music')
+    currDir = os.path.dirname(__file__)
+    projectDir = os.path.abspath(os.path.dirname(currDir))
+    pathWithMusic = os.path.join(projectDir, 'nextgenmusic/static/nextgenmusic/music')
+    print(pathWithMusic)
+    musicFolder = Path(pathWithMusic)
     if request.GET.get('search') is None:
         for musicFile in musicFolder.iterdir():
             duration = calculateSongDuration(musicFile)
