@@ -13,3 +13,5 @@ def getSongDataAsDict(audiofile, duration, id):
      'artist': audiofile['artist'],
      'title': audiofile['title'][0],  # tytul jest zawsze jeden, wiec biore pierwszy element
      'duration': duration}
+
+
