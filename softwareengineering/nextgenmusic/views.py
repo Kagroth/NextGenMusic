@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
@@ -14,7 +13,9 @@ from .models import Playlist
 def index(request):
     return render(request, 'nextgenmusic/index.html')
 
+
 def viewsongs(request):
+    print("Pobieram piosenki!")
     songs = []
     id = 1
     musicFolder = Path('./nextgenmusic/static/nextgenmusic/music')
@@ -24,9 +25,10 @@ def viewsongs(request):
             songs.append(getSongDataAsDict(musicFile, duration, id))
             id += 1
     else:
+        print("wyszukuje piosenek!!")
         toSearch = request.GET['search'].lower()
         for musicFile in musicFolder.iterdir():
-
+            audiofile = EasyMP3(musicFile)
             if toSearch in audiofile['title'][0].lower():
                 duration = calculateSongDuration(musicFile)
                 songs.append(getSongDataAsDict(musicFile, duration, id))
@@ -45,20 +47,27 @@ def viewsongs(request):
 
     return render(request, 'nextgenmusic/findmusic.html', {'songs': songs})
 
+
 def joinus(request):
     if request.user.is_authenticated:
         return redirect('profile')
 
     return render(request, 'nextgenmusic/joinus.html')
 
+
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
-            #name = form.cleaned_data.get('name')
+            # name = form.cleaned_data.get('name')
             try:
-                User.objects.create_user(username=email.split("@")[0], email=request.POST.get('email'), password=request.POST.get('password'), first_name=request.POST.get('name'), last_name=request.POST.get('surname'))
+                User.objects.create_user(username=email.split("@")[0], email=request.POST.get('email'),
+                                         password=request.POST.get('password'), first_name=request.POST.get('name'),
+                                         last_name=request.POST.get('surname'))
             except:
                 return render(request, 'nextgenmusic/welcome.html',
                               {'message': 'Niestety nie udało się zarejestrować',
@@ -69,8 +78,13 @@ def signup(request):
                           {'message': 'Rejestracja przebiegła pomyślnie!',
                            'buttonText': 'Zaloguj',
                            'buttonHref': '../joinus/'})
+        else:
+            return render(request, 'nextgenmusic/welcome.html',
+                          {'message': 'Nie podano wszystkich danych!',
+                           'buttonText': 'Spróbuj ponownie',
+                           'buttonHref': '../joinus/'})
 
-    return signup(request)
+    return joinus(request)
 
 
 def loginuser(request):
@@ -98,9 +112,11 @@ def loginuser(request):
                        'buttonText': 'Ponów',
                        'buttonHref': '../joinus/'})
 
+
 def logoutuser(request):
     logout(request)
     return redirect('index')
+
 
 def profile(request):
     if request.user.is_authenticated:
@@ -112,11 +128,10 @@ def profile(request):
     else:
         return redirect('index')
 
+
 def playlist(request, playlist_name):
     if request.user.is_authenticated:
         print("Bede pobieral playliste!")
-        playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
-        return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist})
         try:
             print("Bede pobieral playliste!")
             playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
@@ -126,7 +141,8 @@ def playlist(request, playlist_name):
             return redirect('profile')
     else:
         return redirect('index')
-    
+
+
 def createPlaylist(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -155,11 +171,10 @@ def createPlaylist(request):
         print("User nie jest zalogowany!")
         return redirect('profile')
 
+
 def deletePlaylist(request, playlist_name):
     print("Wchodze do widoku usuwania playlist!")
     if request.user.is_authenticated:
         print("Usuwam playliste!")
         playlist = Playlist.objects.filter(id_user=request.user, name=playlist_name).delete()
         return redirect('profile')
-
-        
