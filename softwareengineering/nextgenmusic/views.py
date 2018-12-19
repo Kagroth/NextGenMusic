@@ -54,6 +54,9 @@ def joinus(request):
     return render(request, 'nextgenmusic/joinus.html')
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -71,8 +74,15 @@ def signup(request):
                           {'message': 'Rejestracja przebiegła pomyślnie!',
                            'buttonText': 'Zaloguj',
                            'buttonHref': '../joinus/'})
+        else:
+            return render(request, 'nextgenmusic/welcome.html',
+                          {'message': 'Nie podano wszystkich danych!',
+                           'buttonText': 'Spróbuj ponownie',
+                           'buttonHref': '../joinus/'})
 
-    return signup(request)
+    return joinus(request)
+
+
 
 
 def loginuser(request):
@@ -161,5 +171,3 @@ def deletePlaylist(request, playlist_name):
         print("Usuwam playliste!")
         playlist = Playlist.objects.filter(id_user=request.user, name=playlist_name).delete()
         return redirect('profile')
-
-        
