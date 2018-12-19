@@ -35,7 +35,5 @@ class MP3Player
 	{
 		if(this.isPlaying())
 			this.audio.pause();
-	}
-	
-	
+	}		
 }
