@@ -1,13 +1,13 @@
 
 class Song
 {
-	constructor(title)
+	constructor(src)
 	{
-		this.title = title;
+		this.src = src;
 	}
 	
-	getTitle()
+	getSrc()
 	{
-		return this.title;
+		return this.src;
 	}
 }

@@ -15,6 +15,7 @@ def index(request):
     return render(request, 'nextgenmusic/index.html')
 
 def viewsongs(request):
+    print("Pobieram piosenki!")
     songs = []
     id = 1
     musicFolder = Path('./nextgenmusic/static/nextgenmusic/music')
@@ -24,9 +25,10 @@ def viewsongs(request):
             songs.append(getSongDataAsDict(musicFile, duration, id))
             id += 1
     else:
+        print("wyszukuje piosenek!!")
         toSearch = request.GET['search'].lower()
         for musicFile in musicFolder.iterdir():
-
+            audiofile = EasyMP3(musicFile)
             if toSearch in audiofile['title'][0].lower():
                 duration = calculateSongDuration(musicFile)
                 songs.append(getSongDataAsDict(musicFile, duration, id))
@@ -115,8 +117,6 @@ def profile(request):
 def playlist(request, playlist_name):
     if request.user.is_authenticated:
         print("Bede pobieral playliste!")
-        playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
-        return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist})
         try:
             print("Bede pobieral playliste!")
             playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)

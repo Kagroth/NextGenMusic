@@ -11,6 +11,7 @@ class MP3Player
 	setSong(song)
 	{
 		this.song = song;
+		this.audio.src = this.song.src;
 	}
 	
 	// playlist - obiekt klasy Playlist

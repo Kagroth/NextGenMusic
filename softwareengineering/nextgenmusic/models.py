@@ -32,13 +32,14 @@ class Song(models.Model):
     def __str__(self):
         return self.title
 
-class Listen_count:
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
-    count = models.IntegerField()
-
 class Playlist(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     songs = models.ManyToManyField(Song)
+
+class Listen_count(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    count = models.IntegerField()
+
 

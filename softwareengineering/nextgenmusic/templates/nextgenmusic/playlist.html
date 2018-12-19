@@ -2,7 +2,7 @@
 <html lang="en">
     {% load static %}
     <head>
-        <link rel="Shortcut icon" href="{% static 'nextgenmusic/logo.ico' %}" />
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
@@ -19,17 +19,17 @@
 
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'index' %}"> <img class="rounded-circle" src="images/logo.png" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <a class="navbar-brand" href="{% url 'index' %}"> <img class="rounded-circle" src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
             <form class="form-inline my-2 my-lg-0">
-                <select class="custom-select mr-sm-2">
+                <select class="custom-select mr-sm-2" disabled>
                     <option selected>playlist one</option>
                     <option value="1">next playlist</option>
                     <option value="2">onemore</option>
                     <option value="3">and last</option>
                 </select>
-                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Edytuj</button>
+                <button class="btn btn-outline-secondary my-2 my-sm-0" disabled>Zmień</button>
             </form>
-            <a class="navbar-brand" href="{% url 'profile' %}"> username <img class="rounded-circle" src="{% static 'nextgenmusic/images/avatar.jpg' %}" width="30" height="30" alt="logo"> </a>
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ user.username }} </a>
         </nav>
         <br>
         <br> 
@@ -37,7 +37,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                    <h2 class="text-secondary text-center">Nazwa playlisty</h2>
+                    <h2 class="text-secondary text-center">{{ playlist.name }}</h2>
                 </div>
             </div>
             <div class="row">
@@ -54,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for song in playlist.songs%}
+                            {% for song in playlist.songs.all %}
                             <tr>
                                 <th scope="row">1</th>
                                 <td>Sappheiros</td>
@@ -65,7 +65,7 @@
                                     <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
                                 </td>
                             </tr>
-                            {%  %}
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

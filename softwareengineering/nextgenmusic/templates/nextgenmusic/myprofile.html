@@ -103,7 +103,9 @@
                                             </a>
                                         </div>
                                         <div class="col-10">
-                                            <label for="colFormLabel" class="col-form-label">{{ playlist }}</label>
+                                            <label for="colFormLabel" class="col-form-label">
+                                                <a href="{% url 'playlist' playlist.name %}">{{ playlist.name }}</a>
+                                            </label>
                                         </div>
                                     </div>
                                 </td>

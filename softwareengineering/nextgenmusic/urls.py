@@ -10,7 +10,7 @@ urlpatterns = [
     path('login_user/', views.loginuser, name='loginuser'),
     path('myprofile/', views.profile, name='profile'),
     path('logout/', views.logoutuser, name='logout'),
-    path('myprofile/<str:playlist_name>', views.playlist, name="playlist"),
+    path('myprofile/<str:playlist_name>/', views.playlist, name="playlist"),
     path('createPlaylist/', views.createPlaylist, name="createPlaylist"),
     path('deletePlaylist/<str:playlist_name>', views.deletePlaylist, name="deletePlaylist"),
 ]
