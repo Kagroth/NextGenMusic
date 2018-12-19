@@ -22,6 +22,9 @@ class Song_Author(models.Model):
 class Playlist(models.Model):
 	id_user = models.ForeignKey(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=50)
+
+	def __str__(self):
+		return self.name
 	
 class Song_Playlist(models.Model):
 	id_song = models.ForeignKey(Song, on_delete=models.CASCADE)

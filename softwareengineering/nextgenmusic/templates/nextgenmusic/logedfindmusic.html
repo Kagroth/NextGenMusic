@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
     <head>
-        <link rel="Shortcut icon" href="images/logo.ico" />
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
@@ -11,21 +11,21 @@
         <title>NGM - Free Streaming Service</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="{% static 'nextgenmusic/css/bootstrap.css' %}" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="/css/NMG.css" rel="stylesheet" type="text/css">
+        <link href="{% static 'nextgenmusic/css/NMG.css' %}" rel="stylesheet" type="text/css">
 
     </head>
 
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html"> <img class="rounded-circle" src="images/logo.png" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <a class="navbar-brand" href="{% url 'index' %}"> <img class="rounded-circle" src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0">Znajdź</button>
             </form>
-            <a class="navbar-brand" href="myprofile.html"> username <img class="rounded-circle" src="images/avatar.jpg" width="30" height="30" alt="logo"> </a>
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ request.user.username }}</a>
         </nav>
         <br>
         <br> 
@@ -50,15 +50,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for song in songs %}
                             <tr>
-                                <th scope="row">1
-                                    <button class="btn btn-secondary ml-2" type="submit">
-                                        <img src="css/icons/stop.png" alt="add" width="18" height="18">
+                                <th scope="row">
+                                    {{ song.id }}
+                                    <button class="btn btn-secondary ml-2 playStopButton" data-song_name="{{ song.filename }}">
+                                        <img src="{% static 'nextgenmusic/css/icons/play.png' %}" alt="add" width="18" height="18">
                                     </button>
                                 </th>
-                                <td>Sappheiros</td>
-                                <td>Lights</td>
-                                <td>1000</td>
+                                <td>{% for artist in song.artist%}
+                                    {{ artist }}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ song.title }}</td>
+                                <td>{{ song.duration }}</td>
                                 <td>
                                     <form class="form-inline my-2 my-lg-0">
                                         <select class="custom-select mr-sm-2">
@@ -67,63 +72,42 @@
                                             <option value="2">onemore</option>
                                             <option value="3">and last</option>
                                         </select>
-                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                                            <img src="css/icons/add.png" alt="add" width="18" height="18">
+                                        <button class="btn btn-secondary my-2 my-sm-0">
+                                            <img src="{% static 'nextgenmusic/css/icons/add.png' %}" alt="add" width="18" height="18">
                                         </button>
                                     </form>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2
-                                    <button class="btn btn-secondary ml-2" type="submit">
-                                        <img src="css/icons/play.png" alt="add" width="18" height="18">
-                                    </button>
-                                </th>
-                                <td>FREDJI</td>
-                                <td>Flying High</td>
-                                <td>421</td>
-                                <td>
-                                    <form class="form-inline my-2 my-lg-0">
-                                        <select class="custom-select mr-sm-2">
-                                            <option selected>playlist one</option>
-                                            <option value="1">next playlist</option>
-                                            <option value="2">onemore</option>
-                                            <option value="3">and last</option>
-                                        </select>
-                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                                            <img src="css/icons/add.png" alt="add" width="18" height="18">
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3
-                                    <button class="btn btn-secondary ml-2" type="submit">
-                                        <img src="css/icons/play.png" alt="add" width="18" height="18">
-                                    </button>
-                                </th>
-                                <td>Ship Wrek & Zookeepers</td>
-                                <td>Ark</td>
-                                <td>21</td>
-                                <td>
-                                    <form class="form-inline my-2 my-lg-0">
-                                        <select class="custom-select mr-sm-2">
-                                            <option selected>playlist one</option>
-                                            <option value="1">next playlist</option>
-                                            <option value="2">onemore</option>
-                                            <option value="3">and last</option>
-                                        </select>
-                                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                                            <img src="css/icons/add.png" alt="add" width="18" height="18">
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    <audio controls src=""></audio>
     </body>
+    <script src="{% static 'nextgenmusic/js/Controller.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/MP3Player.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/Playlist.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/Songs.js' %}"></script>
+    <script>
+        window.onload = function()
+        {
+            var audio = document.querySelector('audio');
+            var buttons = document.querySelectorAll('.playStopButton');
+            var player = new MP3Player(audio);
+            var songs = new Array();
 
+            console.log(buttons);
+            var button;
+            for(button of buttons)
+            {
+                button.addEventListener('click', function(){
+                    audio.src = "/static/nextgenmusic/music/" + this.dataset.song_name;
+                    audio.play();
+
+                }, false);
+            }
+        }
+    </script>
 </html>
