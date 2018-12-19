@@ -15,9 +15,8 @@
 
         <!-- Custom styles for this template -->
         <link href="css/ngm.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="css/playerSkin.css">
+        <link href="css/fonts/awesome/css/all.css" rel="stylesheet">
+
     </head>    
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-dark bg-dark">
@@ -28,26 +27,20 @@
         <Br>
         <br>
         <br>
-
-        <div id="playerCover">
-            <div id="player">
-                <div id="next"><i class="fa fa-step-backward" aria-hidden="true"></i></div>
-                <div id="playPause"><i class="fa fa-play" aria-hidden="true"></i></div>
-                <div id="prev"><i class="fa fa-step-forward" aria-hidden="true"></i></div>
-                <div id="sArea">
-                    <div id="insTime">00:00</div>
-                    <div id="sHover"></div>
-                    <div id="seekBar"><div id="seName">Audio file name</div></div>
-                    <div id="trackName">Audio file name</div>
+        <div class="container-fluid bg-dark fixed-bottom">
+            <h6 class="text-center text-primary">Tytuł utworu - Artist song name</h6>
+            <div class="row mb-2">
+                <div class="col text-right">
+                    <button type="button" class="btn btn-circle btn-secondary"> <i class="fa fa-step-backward"></i> </button>
+                    <button type="button" class="btn btn-circle btn-secondary"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-circle btn-secondary"><i class="fa fa-step-forward"></i></button>
                 </div>
-                <div id="aTime">
-                    <div id="aTm">
-                        <div id="aPlayed">00:00</div>
-                        <div id="aTotal">00:00</div>
+                <div class="col text-left">
+                    <div class="progress mt-1" style="width:100px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="js/player.js"></script>
     </body>
 </html>
