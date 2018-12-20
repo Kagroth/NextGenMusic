@@ -54,27 +54,27 @@
                         <tbody>
                             {% for song in songs %}
                             <tr>
-                                <th scope="row">
+                                <th scope="row" class="align-middle">
                                     {{ song.id }}
                                     <button class="btn btn-secondary ml-2 playStopButton" data-song_name="{{ song.filename }}">
                                         <img src="{% static 'nextgenmusic/css/icons/play.png' %}" alt="add" width="18" height="18">
                                     </button>
                                 </th>
-                                <td>{% for artist in song.artist%}
+                                <td class="align-middle">{% for artist in song.artist%}
                                     {{ artist }}
                                     {% endfor %}
                                 </td>
-                                <td>{{ song.title }}</td>
-                                <td>{{ song.duration }}</td>
-                                <td>
+                                <td class="align-middle">{{ song.title }}</td>
+                                <td class="align-middle">{{ song.duration }}</td>
+                                <td class="align-middle">
                                     <form class="form-inline my-2 my-lg-0">
-                                        <select class="custom-select mr-sm-2">
+                                        <select class="custom-select mr-sm-2" disabled>
                                             <option selected>playlist one</option>
                                             <option value="1">next playlist</option>
                                             <option value="2">onemore</option>
                                             <option value="3">and last</option>
                                         </select>
-                                        <button class="btn btn-secondary my-2 my-sm-0">
+                                        <button class="btn btn-secondary my-2 my-sm-0" disabled>
                                             <img src="{% static 'nextgenmusic/css/icons/add.png' %}" alt="add" width="18" height="18">
                                         </button>
                                     </form>
@@ -94,7 +94,6 @@
     <script>
         window.onload = function()
         {
-            var audio = document.querySelector('audio');
             var playPauseButtons = document.querySelectorAll('.playStopButton');
             var player = new MP3Player(new Audio());
             var songs = new Array();

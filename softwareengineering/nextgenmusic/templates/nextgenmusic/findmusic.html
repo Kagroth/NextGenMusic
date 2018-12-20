@@ -53,13 +53,13 @@
                         <tbody>
                         {% for song in songs %}
                             <tr>
-                                <th scope="row">{{ song.id }}</th>
-                                <td>{% for artist in song.artist%}
+                                <th scope="row" class="align-middle">{{ song.id }}</th>
+                                <td class="align-middle">{% for artist in song.artist%}
                                     {{ artist }}
                                     {% endfor %}
                                 </td>
-                                <td>{{ song.title }}</td>
-                                <td>{{ song.duration }}</td>
+                                <td class="align-middle">{{ song.title }}</td>
+                                <td class="align-middle">{{ song.duration }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
