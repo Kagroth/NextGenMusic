@@ -1,13 +1,15 @@
 class Controller
 {
-	constructor(mp3player, playPauseButtons)
+	constructor(mp3player, playPauseButtons, addToPlaylistForms)
 	{
 		this.mp3player = mp3player;
 		this.playPauseButtons = playPauseButtons;
+		this.addToPlaylistForms = addToPlaylistForms;
 		this.actualPlaying = null;
 		console.log("Controller created!");
 	}
 	
+	// podpiecie obslugi odgrywania muzyki z glownego listingu utworow
 	bindPlayPauseEvent()
 	{
 		console.log("Podpinam zdarzenie!");
@@ -40,5 +42,38 @@ class Controller
 				
 			}, false);
 		}
+	}
+	
+	// podpiecie obslugi formularza dodajacego utwor do playlisty
+	bindAddToPlaylistEvent()
+	{
+		console.log("Podpinam zdarzenie formularzy!");
+		
+		for(let form of this.addToPlaylistForms)
+        {
+			form.onsubmit = function(e) 
+			{
+				e.preventDefault();
+				console.log(this.playlistName.value);
+				console.log(this.csrfmiddlewaretoken.value);
+				console.log(this.querySelector('.addToPlaylistButton').dataset.song_name.split('.')[0]);
+				
+				$.ajax({
+					beforeSend: function(request){
+						request.setRequestHeader("X-CSRFToken", form.csrfmiddlewaretoken.value);
+					},
+					url: "/addToPlaylist/",
+					method: "POST",
+					data: {
+						playlistName: this.playlistName.value,
+						songName: this.querySelector('.addToPlaylistButton').dataset.song_name.split('.')[0]
+					}
+				}).done(function(msg){
+					console.log(msg);
+				});
+			};
+
+			console.log(form.playlistName.value);
+        }
 	}
 }

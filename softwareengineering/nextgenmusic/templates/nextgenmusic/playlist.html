@@ -54,15 +54,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for song in playlist.songs.all %}
+                            {% for song in songs %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Sappheiros</td>
-                                <td>Lights</td>
-                                <td>1000</td>
+                                <th scope="row">{{song.id}}</th>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/play.png" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
+                                    {% for artist in song.artist %}
+                                        {{artist}}
+                                    {% endfor %}
+                                </td>
+                                <td>{{song.title}}</td>
+                                <td>{{song.duration}}</td>
+                                <td>
+                                    <button class="btn btn-secondary btn-sm" > <img src="{% static 'nextgenmusic/css/icons/play.png' %}" alt="delete" width="20" height="20"> </button>
+                                    <button class="btn btn-secondary btn-sm" > <img src="{% static 'nextgenmusic/css/icons/remove.png' %}" alt="delete" width="20" height="20"> </button>
                                 </td>
                             </tr>
                             {% endfor %}

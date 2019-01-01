@@ -67,14 +67,14 @@
                                 <td class="align-middle">{{ song.title }}</td>
                                 <td class="align-middle">{{ song.duration }}</td>
                                 <td class="align-middle">
-                                    <form class="form-inline my-2 my-lg-0">
-                                        <select class="custom-select mr-sm-2" disabled>
-                                            <option selected>playlist one</option>
-                                            <option value="1">next playlist</option>
-                                            <option value="2">onemore</option>
-                                            <option value="3">and last</option>
+                                    <form class="form-inline my-2 my-lg-0 addToPlaylistForm">
+                                        {% csrf_token %}
+                                        <select class="custom-select mr-sm-2" name="playlistName">
+                                            {% for playlist in playlists %}
+                                            <option value="{{ playlist.name }}"> {{ playlist.name }} </option>
+                                            {% endfor %}
                                         </select>
-                                        <button class="btn btn-secondary my-2 my-sm-0" disabled>
+                                        <button class="btn btn-secondary my-2 my-sm-0 addToPlaylistButton" data-song_name="{{ song.filename }}">
                                             <img src="{% static 'nextgenmusic/css/icons/add.png' %}" alt="add" width="18" height="18">
                                         </button>
                                     </form>
@@ -87,6 +87,7 @@
             </div>
         </div>
     </body>
+    <script src="{% static 'nextgenmusic/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'nextgenmusic/js/Controller.js' %}"></script>
     <script src="{% static 'nextgenmusic/js/MP3Player.js' %}"></script>
     <script src="{% static 'nextgenmusic/js/Playlist.js' %}"></script>
@@ -95,20 +96,12 @@
         window.onload = function()
         {
             var playPauseButtons = document.querySelectorAll('.playStopButton');
+            var addToPlaylistForms = document.querySelectorAll('.addToPlaylistForm');
             var player = new MP3Player(new Audio());
             var songs = new Array();
-            var controller = new Controller(player, playPauseButtons);
+            var controller = new Controller(player, playPauseButtons, addToPlaylistForms);
             controller.bindPlayPauseEvent();
-
-            /*var button;
-            for(button of buttons)
-            {
-                button.addEventListener('click', function(){
-                    audio.src = "/static/nextgenmusic/music/" + this.dataset.song_name;
-                    audio.play();
-
-                }, false);
-            }*/
+            controller.bindAddToPlaylistEvent();
         }
     </script>
 </html>

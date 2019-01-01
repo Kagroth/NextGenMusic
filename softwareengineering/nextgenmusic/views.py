@@ -2,19 +2,20 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
 from .utils import calculateSongDuration, getSongDataAsDict
-from .models import Playlist
+from .models import Playlist, Song
 
 import os
 
 def index(request):
     return render(request, 'nextgenmusic/index.html')
 
+# widok wyswietlajacy liste utworow
 def viewsongs(request):
     print("Pobieram piosenki!")
     songs = []
@@ -26,6 +27,7 @@ def viewsongs(request):
     musicFolder = Path(pathWithMusic)
     if request.GET.get('search') is None:
         for musicFile in musicFolder.iterdir():
+            print(musicFile)
             duration = calculateSongDuration(musicFile)
             songs.append(getSongDataAsDict(musicFile, duration, id))
             id += 1
@@ -48,7 +50,8 @@ def viewsongs(request):
                         break
 
     if request.user.is_authenticated:
-        return render(request, 'nextgenmusic/logedfindmusic.html', {'songs': songs})
+        playlists = Playlist.objects.filter(id_user=request.user)
+        return render(request, 'nextgenmusic/logedfindmusic.html', {'songs': songs, 'playlists': playlists})
 
     return render(request, 'nextgenmusic/findmusic.html', {'songs': songs})
 
@@ -129,13 +132,39 @@ def profile(request):
     else:
         return redirect('index')
 
+# wyświetla dane zawarte w playliscie - nazwe i liste piosenek
 def playlist(request, playlist_name):
     if request.user.is_authenticated:
         print("Bede pobieral playliste!")
         try:
             print("Bede pobieral playliste!")
             playlist = Playlist.objects.get(id_user=request.user, name=playlist_name)
-            return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist})
+            print(playlist.songs)
+
+            songsInPlaylist = []
+            currDir = os.path.dirname(__file__)
+            projectDir = os.path.abspath(os.path.dirname(currDir))
+            pathWithMusic = os.path.join(projectDir, 'nextgenmusic/static/nextgenmusic/music')
+            print(pathWithMusic)
+            print("Bede iterowal po piosenkach!")
+            print(playlist.songs)
+            #musicFolder = Path(pathWithMusic)
+            id = 1
+
+            for song in playlist.songs.all():
+                print("Iteruje po piosenkach!")
+                musicFilePath = pathWithMusic + "/" + song.title + ".mp3"
+                print(musicFilePath)
+                musicFile = Path(musicFilePath)
+                print(musicFile)
+                duration = calculateSongDuration(musicFile)
+                s = getSongDataAsDict(musicFile, duration, id)
+                print(s)
+                songsInPlaylist.append(s)
+                print(songsInPlaylist)
+                id += 1
+
+            return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'songs': songsInPlaylist})
         except:
             print("Nie znalazlem playlisty!")
             return redirect('profile')
@@ -176,3 +205,37 @@ def deletePlaylist(request, playlist_name):
         print("Usuwam playliste!")
         playlist = Playlist.objects.filter(id_user=request.user, name=playlist_name).delete()
         return redirect('profile')
+
+# dodaje piosenke do playlisty
+def addSongToPlaylist(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST' \
+                and request.POST.get("playlistName") is not None \
+                and request.POST.get("songName") is not None:
+            # obsluga dodania utworu do playlisty
+            plName = request.POST.get("playlistName")
+            songName = request.POST.get("songName")
+
+            pl = Playlist.objects.get(id_user=request.user, name=plName)
+
+            isInPlaylist = False
+
+            for song in pl.songs.all():
+                if song.title == songName:
+                    print("Utwor jest juz w playliscie!")
+                    isInPlaylist = True
+                    break
+
+            if isInPlaylist:
+                print("Zwracam komunikat ze utwor jest")
+                return JsonResponse({'message': 'Utwor juz jest w playliscie'})
+
+            song = Song.objects.get(title=songName)
+            pl.songs.add(song)
+
+            print("Zwracam komunikat ze utwor udalo sie dodac")
+            return JsonResponse({'message': 'Utwór dodany'})
+        else:
+            return JsonResponse({'message': 'Niepoprawne dane'})
+    else:
+        return redirect('viewsongs')

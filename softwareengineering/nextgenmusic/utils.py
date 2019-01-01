@@ -1,5 +1,6 @@
 from mutagen.mp3 import EasyMP3
 
+# funkcja zwraca długosc utworu w formacie MM:SS
 def calculateSongDuration(musicfile):
     audiofile = EasyMP3(musicfile)
     # okreslenie liczby minut
@@ -9,8 +10,11 @@ def calculateSongDuration(musicfile):
     duration = str(minutes) + ":" + str(seconds)
     return duration
 
+# funkcja zwraca dane utworu w postaci słownika
 def getSongDataAsDict(musicfile, duration, id):
+    print("Tworze plik EasyMP3")
     audiofile = EasyMP3(musicfile)
+    print("Zwracam info o pliku!")
     return {'id': id,
      'filename': musicfile.name,
      'artist': audiofile['artist'],

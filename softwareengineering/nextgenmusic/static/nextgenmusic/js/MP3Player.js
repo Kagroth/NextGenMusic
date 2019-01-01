@@ -1,7 +1,7 @@
 
 class MP3Player
 {
-	// audio obiekt klasy Audio()
+	// audio - obiekt klasy Audio()
 	constructor(audio)
 	{
 		this.audio = audio;
