@@ -96,6 +96,9 @@ def signup(request):
 
 # widok odpowiedzialny za logowanie
 def loginuser(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+    
     if request.method == 'POST':
         loginForm = LoginForm(request.POST)
         if loginForm.is_valid():
