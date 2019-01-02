@@ -339,4 +339,4 @@ def paneladmin(request):
                 msg = "Nie udało się!"
                 return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
 
-    return render(request, 'nextgenmusic/paneladmin.html'
+    return render(request, 'nextgenmusic/paneladmin.html')
