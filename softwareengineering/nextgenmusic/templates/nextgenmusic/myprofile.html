@@ -27,13 +27,14 @@
         <br>
         <br>
         <div class="container-fluid">
-
+            {% if request.user.is_superuser %}
             <div class="row text-white h-25 justify-content-right">
                 <div class="col-8"></div>
                 <div class="col-2">
                     <a href="{% url 'paneladmin' %}"><button class="btn btn-primary">Panel administracyjny</button></a>
                 </div>
             </div>
+            {% endif %}
             <br>
             <div class="row">
                 <div class="col-2"></div>

@@ -76,6 +76,7 @@ class Controller
 					},
 					success: function(msg){
 						console.log(msg.message);
+						alert(msg.message);
 					}
 				});
 			};
