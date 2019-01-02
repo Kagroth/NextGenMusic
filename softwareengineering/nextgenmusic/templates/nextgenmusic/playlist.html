@@ -20,15 +20,6 @@
     <body class="bg-black" id="page-top">
         <nav class="navbar fixed-top navbar-dark bg-dark">
             <a class="navbar-brand" href="{% url 'index' %}"> <img class="rounded-circle" src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
-            <form class="form-inline my-2 my-lg-0">
-                <select class="custom-select mr-sm-2" disabled>
-                    <option selected>playlist one</option>
-                    <option value="1">next playlist</option>
-                    <option value="2">onemore</option>
-                    <option value="3">and last</option>
-                </select>
-                <button class="btn btn-outline-secondary my-2 my-sm-0" disabled>Zmień</button>
-            </form>
             <a class="navbar-brand" href="{% url 'profile' %}"> {{ user.username }} </a>
         </nav>
         <br>
@@ -80,6 +71,7 @@
             </div>
 
             <!-- Audio Player -->
+            <!-- Do skończenia
             <div class="container-fluid bg-dark fixed-bottom">
                 <h6 class="text-center text-primary">Tytuł utworu - Artist song name</h6>
                 <div class="row mb-2">
@@ -95,6 +87,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
     </body>
     <script src="{% static 'nextgenmusic/js/jquery-3.3.1.min.js' %}"></script>
