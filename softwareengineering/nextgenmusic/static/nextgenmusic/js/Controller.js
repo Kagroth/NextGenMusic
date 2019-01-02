@@ -9,6 +9,11 @@ class Controller
 		console.log("Controller created!");
 	}
 	
+	setRemoveFromPlaylistForms(forms)
+	{
+		this.removeFromPlaylistForms = forms;
+	}
+	
 	// podpiecie obslugi odgrywania muzyki z glownego listingu utworow
 	bindPlayPauseEvent()
 	{
@@ -58,6 +63,7 @@ class Controller
 				console.log(this.csrfmiddlewaretoken.value);
 				console.log(this.querySelector('.addToPlaylistButton').dataset.song_name.split('.')[0]);
 				
+				// dodanie utworu do playlisty
 				$.ajax({
 					beforeSend: function(request){
 						request.setRequestHeader("X-CSRFToken", form.csrfmiddlewaretoken.value);
@@ -67,13 +73,48 @@ class Controller
 					data: {
 						playlistName: this.playlistName.value,
 						songName: this.querySelector('.addToPlaylistButton').dataset.song_name.split('.')[0]
+					},
+					success: function(msg){
+						console.log(msg.message);
 					}
-				}).done(function(msg){
-					console.log(msg);
 				});
 			};
 
 			console.log(form.playlistName.value);
         }
+	}
+	
+	// podpiecie obslugi usuniecia utworu z Playlisty
+	bindRemoveFromPlaylistEvent()
+	{
+		for(let form of this.removeFromPlaylistForms)
+		{
+			form.addEventListener("submit", (e) => {
+				e.preventDefault();
+				let songName = form.querySelector('.removeFromPlaylistButton').dataset.song_name.split('.')[0];
+				
+				console.log(form.playlistName.value);
+				console.log(songName);
+				console.log("Bede usuwal utwor z playlisty!!");
+				
+				$.ajax({
+					beforeSend: function(request)
+					{
+						request.setRequestHeader("X-CSRFToken", form.csrfmiddlewaretoken.value);
+					},
+					
+					url: "/removeFromPlaylist/",
+					method: "POST",
+					data: {
+						playlistName: form.playlistName.value,
+						songName: songName
+					},
+					success: function(msg)
+					{
+						location.href = "/myprofile/" + form.playlistName.value + "/";
+					}
+				});
+			});
+		}
 	}
 }

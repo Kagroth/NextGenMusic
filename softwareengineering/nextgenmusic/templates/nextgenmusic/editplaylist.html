@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
+        <meta name="author" content="Kamil Bania, Mateusz Gawlak, Paweł Durda, Adrian Gajewski, Wojciech Gałka">
+
+        <title>NGM - Free Streaming Service</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'nextgenmusic/css/bootstrap.css' %}" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/fonts/awesome/css/all.css" rel="stylesheet">
+
+    </head>
+
+    <body class="bg-black" id="page-top">
+        <nav class="navbar fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'index' %}"> <img class="rounded-circle" src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ request.user.username }} </a>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <h2 class="text-primary text-center">Zmień nazwę</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form class="text-primary text-center" method="POST" action="{% url 'changePlaylistName' %}">
+                        {% csrf_token %}
+                        <div class="form-group row justify-content-sm-center">
+                            <div class="col-sm-4">
+                                <input type="hidden" name="oldPlaylistName" value="{{ playlist.name }}">
+                                <input class="form-control" name="newPlaylistName" value="{{ playlist.name }}">
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-secondary btn-block">ZAPISZ</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

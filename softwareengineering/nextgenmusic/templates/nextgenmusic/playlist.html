@@ -65,8 +65,12 @@
                                 <td>{{song.title}}</td>
                                 <td>{{song.duration}}</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" > <img src="{% static 'nextgenmusic/css/icons/play.png' %}" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="{% static 'nextgenmusic/css/icons/remove.png' %}" alt="delete" width="20" height="20"> </button>
+                                    <form class="removeFromPlaylistForm">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="playlistName" value="{{ playlist.name }}">
+                                        <button class="btn btn-secondary btn-sm playSongButton" data-song_name="{{ song.filename }}"> <img src="{% static 'nextgenmusic/css/icons/play.png' %}" alt="delete" width="20" height="20"> </button>
+                                        <button class="btn btn-secondary btn-sm removeFromPlaylistButton" data-song_name="{{ song.filename }}"> <img src="{% static 'nextgenmusic/css/icons/remove.png' %}" alt="delete" width="20" height="20"> </button>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -74,6 +78,42 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Audio Player -->
+            <div class="container-fluid bg-dark fixed-bottom">
+                <h6 class="text-center text-primary">Tytuł utworu - Artist song name</h6>
+                <div class="row mb-2">
+                    <div class="col text-right">
+                        <button class="btn btn-secondary btn-circle" type="Submit"><img src="{% static 'nextgenmusic/css/icons/previous.png' %}" width="20" height="20" alt="logo"></button>
+                        <button class="btn btn-secondary btn-circle" type="Submit"><img src="{% static 'nextgenmusic/css/icons/play.png' %}" width="20" height="20" alt="logo"></button>
+                        <button class="btn btn-secondary btn-circle" type="Submit"><img src="{% static 'nextgenmusic/css/icons/next.png' %}" width="20" height="20" alt="logo"></button>
+                    </div>
+                    <div class="col text-left">
+                        <div class="progress mt-2" style="width:100px">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
+    <script src="{% static 'nextgenmusic/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/Controller.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/MP3Player.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/Playlist.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/Song.js' %}"></script>
+    <script>
+        window.onload = function()
+        {
+            var playSongButtons = document.querySelectorAll('.playSongButton');
+            var removeFromPlaylistForms = document.querySelectorAll('.removeFromPlaylistForm');
+
+            var player = new MP3Player(new Audio());
+            var songs = new Array();
+            var controller = new Controller(player);
+
+            controller.setRemoveFromPlaylistForms(removeFromPlaylistForms);
+            controller.bindRemoveFromPlaylistEvent();
+        }
+    </script>
 </html>

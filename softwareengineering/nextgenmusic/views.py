@@ -12,6 +12,7 @@ from .models import Playlist, Song
 
 import os
 
+# widok strony glownej
 def index(request):
     return render(request, 'nextgenmusic/index.html')
 
@@ -55,12 +56,14 @@ def viewsongs(request):
 
     return render(request, 'nextgenmusic/findmusic.html', {'songs': songs})
 
+# widok strony z logowaniem i rejestracja
 def joinus(request):
     if request.user.is_authenticated:
         return redirect('profile')
 
     return render(request, 'nextgenmusic/joinus.html')
 
+# widok odpowiedzialny za rejestracje
 def signup(request):
     if request.user.is_authenticated:
         return redirect('profile')
@@ -91,8 +94,7 @@ def signup(request):
     return joinus(request)
 
 
-
-
+# widok odpowiedzialny za logowanie
 def loginuser(request):
     if request.method == 'POST':
         loginForm = LoginForm(request.POST)
@@ -118,10 +120,12 @@ def loginuser(request):
                        'buttonText': 'Ponów',
                        'buttonHref': '../joinus/'})
 
+# widok odpowiedzialny za wylogowanie
 def logoutuser(request):
     logout(request)
     return redirect('index')
 
+# widok profilu uzytkownika
 def profile(request):
     if request.user.is_authenticated:
         try:
@@ -164,13 +168,14 @@ def playlist(request, playlist_name):
                 print(songsInPlaylist)
                 id += 1
 
-            return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'songs': songsInPlaylist})
+            return render(request, 'nextgenmusic/playlist.html', {'user': request.user, 'playlist': playlist, 'songs': songsInPlaylist})
         except:
             print("Nie znalazlem playlisty!")
             return redirect('profile')
     else:
         return redirect('index')
-    
+
+# widok odpowiedzialny za tworzenie playlisty
 def createPlaylist(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -199,6 +204,35 @@ def createPlaylist(request):
         print("User nie jest zalogowany!")
         return redirect('profile')
 
+# widok wyswietlajacy formularz zmiany nazwy playlisty
+def editPlaylistName(request, playlist_name):
+    if request.user.is_authenticated:
+        pl = Playlist.objects.get(id_user=request.user, name=playlist_name)
+        return render(request, 'nextgenmusic/editplaylist.html', {'playlist': pl})
+
+    return redirect('profile')
+
+# widok odpowiedzialny za zmiane nazwy playlisty
+def changePlaylistName(request):
+    if request.user.is_authenticated:
+        if request.method == "POST" and \
+            request.POST.get("newPlaylistName") is not None and \
+            request.POST.get("oldPlaylistName") is not None:
+
+            oldName = request.POST.get('oldPlaylistName')
+            newName = request.POST.get('newPlaylistName')
+
+            pl = Playlist.objects.get(id_user=request.user, name=oldName)
+            pl.name = newName
+            pl.save()
+
+            return redirect('profile')
+        else:
+            return redirect('editPlaylistName', request.POST.get('oldPlaylistName'))
+
+    return redirect('index')
+
+# widok odpowiedzialny za usuniecie playlisty
 def deletePlaylist(request, playlist_name):
     print("Wchodze do widoku usuwania playlist!")
     if request.user.is_authenticated:
@@ -239,3 +273,30 @@ def addSongToPlaylist(request):
             return JsonResponse({'message': 'Niepoprawne dane'})
     else:
         return redirect('viewsongs')
+
+
+# usuwa utwor z playlisty
+def removeFromPlaylist(request):
+    message = "Nie udalo sie usunac piosenki"
+    if request.user.is_authenticated:
+        if request.method == 'POST' \
+                and request.POST.get("playlistName") is not None \
+                and request.POST.get("songName") is not None:
+
+            plName = request.POST.get("playlistName")
+            songName = request.POST.get("songName")
+
+            try:
+                playlist = Playlist.objects.get(id_user=request.user, name=plName)
+                songToRemove = Song.objects.get(title=songName)
+                playlist.songs.remove(songToRemove)
+                message = "Utwor zostal usuniety z playlisty"
+            except:
+                print("Cos poszlo nie tak")
+                message = "Nie udalo sie usunac piosenki"
+        else:
+            message = "Brak wszystkich danych!"
+    else:
+        message = "Anonimowy uzytkownik!"
+
+    return JsonResponse({'message': message})

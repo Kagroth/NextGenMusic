@@ -12,6 +12,9 @@ urlpatterns = [
     path('logout/', views.logoutuser, name='logout'),
     path('myprofile/<str:playlist_name>/', views.playlist, name="playlist"),
     path('createPlaylist/', views.createPlaylist, name="createPlaylist"),
+    path('editPlaylistName/<str:playlist_name>', views.editPlaylistName, name='editPlaylistName'),
+    path('changePlaylistName/', views.changePlaylistName, name='changePlaylistName'),
     path('deletePlaylist/<str:playlist_name>', views.deletePlaylist, name="deletePlaylist"),
     path('addToPlaylist/', views.addSongToPlaylist, name='addSongToPlaylist'),
+    path('removeFromPlaylist/', views.removeFromPlaylist, name='removeFromPlaylist'),
 ]
