@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
+        <meta name="author" content="Kamil Bania, Mateusz Gawlak, Paweł Durda, Adrian Gajewski, Wojciech Gałka">
+
+        <title>NGM - Free Streaming Service</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'nextgenmusic/css/bootstrap.css' %}" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="{% static 'nextgenmusic/css/NMG.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'nextgenmusic/css/fonts/awesome/css/all.css' %}" rel="stylesheet" type="text/css">
+        <script src="{% static 'nextgenmusic/js/jquery-3.3.1.min.js' %}"></script>
+
+
+    </head>
+
+    <body class="bg-black" id="page-top">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html"> <img class="rounded-circle" src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            </div>
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ request.user.username }} </a>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button class="btn btn-secondary btn-block">
+                        Generuj Raport
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" name="musicUpload" class="custom-file-input" id="inputGroupFile02">
+                                <label class="custom-file-label" for="inputGroupFile02" >Wybierz plik</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit" id="inputGroupFileAddon03">Prześlij</button>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4 text-center">
+                    <div class="alert alert-primary">
+                        {{ msg }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+            $('.custom-file-input').on('change', function () {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+    </script>
+</html>

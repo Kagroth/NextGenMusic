@@ -9,6 +9,7 @@ from mutagen.mp3 import EasyMP3
 from datetime import timedelta
 from .utils import calculateSongDuration, getSongDataAsDict
 from .models import Playlist, Song
+from django.core.files.storage import FileSystemStorage
 
 import os
 
@@ -239,3 +240,26 @@ def addSongToPlaylist(request):
             return JsonResponse({'message': 'Niepoprawne dane'})
     else:
         return redirect('viewsongs')
+
+def paneladmin(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST' and request.FILES['musicUpload']:
+            try:
+                musicUpload = request.FILES['musicUpload']
+                fs = FileSystemStorage()
+                fs.save(musicUpload.name, musicUpload)
+                msg = "Utwór został dodany!"
+                print(musicUpload.name)
+                print(fs.base_location)
+
+                piosenka = Song(title=(musicUpload.name).split('.')[0])
+                piosenka.save()
+
+                return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
+            except:
+                msg = "Nie udało się!"
+                return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
+
+        return render(request, 'nextgenmusic/paneladmin.html')
+
+
