@@ -19,8 +19,14 @@
     </head>
 
     <body class="bg-black" id="page-top">
-        <nav class="navbar fixed-top navbar-dark bg-dark">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html"> <img class="rounded-circle" src="images/logo.png" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            </div>
             <a class="navbar-brand" href="myprofile.html"> username <img class="rounded-circle" src="images/avatar.jpg" width="30" height="30" alt="logo"> </a>
         </nav>
         <br>
@@ -31,97 +37,16 @@
         <br>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-2"></div>
-
-                <div class="col-2 text-center">
-                    <div class="col">
-                        <h2 class="text-primary text-center">Konto</h2>
-                    </div>
-                    <form>
-                        <div class="form-row">
-                            <div class="col mb-2">
-                                <input id="EmailNew" type="text" class="form-control text-center" name="email" placeholder="Podaj nowy Email">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col mb-2">
-                                <input id="PasswordNew" type="password" class="form-control text-center" name="password" placeholder="Podaj nowe Hasło">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col mb-2">
-                                <input id="PasswordNew2" type="password" class="form-control text-center" name="password" placeholder="Powrórz nowe Hasło">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-block" type="Submit"> Potwierdź zmiany </button>
-
-                    </form> 
-                    <button class="btn btn-secondary btn-block mt-2" type="Submit"> Wyloguj </button>
-                </div>
-
                 <div class="col-1"></div>
-
-                <div class="col-5 text-center">
-                    <div class="col">
-                        <h2 class="text-secondary text-center">Playlisty</h2>
-                    </div>
-
-                    <table class="table table-hover table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <button class="btn btn-secondary">
-                                                <i class="fa fa-plus-circle"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control " id="inlineFormInputName2" placeholder="Nazwa Playlisty">
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="btn-group float-left">
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-minus-circle"></i>
-                                        </button>
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </div>             
-                                    PLaylist One
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="btn-group float-left">
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-minus-circle"></i>
-                                        </button>
-
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </div>
-                                    <p>
-                                        PLaylist Two
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-10">
+                    <button class="btn btn-secondary btn-block" >
+                        Generuj Raport
+                    </button>
                 </div>
-
-                <div class="col-3"></div>
             </div>
             <DIV class="row mt-2">
-                <div class="col-2">
-                    
-                </div>
-                <div class="col-8">
+                <div class="col-1"></div>
+                <div class="col-10">
                     <div class="input-group mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="inputGroupFile02">
@@ -131,6 +56,85 @@
                             <button class="btn btn-secondary" type="button" id="inputGroupFileAddon03">Prześlij</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Wykonawca</th>
+                                <th scope="col">Tytuł</th>
+                                <th scope="col">Czas utworu</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1
+                                </th>
+                                <td>Sappheiros</td>
+                                <td>Lights</td>
+                                <td>1000</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/play.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/edit.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/remove.png" width="20" height="20" alt="logo">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2
+                                </th>
+                                <td>FREDJI</td>
+                                <td>Flying High</td>
+                                <td>421</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/play.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/edit.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/remove.png" width="20" height="20" alt="logo">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3
+
+                                </th>
+                                <td>Ship Wrek & Zookeepers</td>
+                                <td>Ark</td>
+                                <td>21</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/play.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/edit.png" width="20" height="20" alt="logo">
+                                        </button>
+                                        <button class="btn btn-secondary" >
+                                            <img src="css/icons/remove.png" width="20" height="20" alt="logo">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
