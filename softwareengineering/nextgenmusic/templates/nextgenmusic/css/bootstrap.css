@@ -4925,9 +4925,9 @@ input[type="button"].btn-block {
 }
 
 .alert-primary {
-  color: #004085;
-  background-color: #cce5ff;
-  border-color: #b8daff;
+  color: #00CC33;
+  background-color: #33FF66;
+  border-color: #00CC33;
 }
 
 .alert-primary hr {
