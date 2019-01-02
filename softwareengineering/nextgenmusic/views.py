@@ -312,21 +312,31 @@ def removeFromPlaylist(request):
 # Widok odpowiedzialny za dodanie utworu muzycznego do bazy
 def paneladmin(request):
     if request.user.is_authenticated:
-        if request.method == 'POST' and request.FILES['musicUpload']:
+        if request.method == 'POST':
             try:
                 musicUpload = request.FILES['musicUpload']
-                fs = FileSystemStorage()
-                fs.save(musicUpload.name, musicUpload)
-                msg = "Utwór został dodany!"
-                print(musicUpload.name)
-                print(fs.base_location)
+                if (musicUpload.name).split('.')[1] == "mp3":
 
-                piosenka = Song(title=(musicUpload.name).split('.')[0])
-                piosenka.save()
+                    for song in Song.objects.all():
+                        if song.title == (musicUpload.name).split('.')[0]:
+                            msg = "Wybrany utwór istnieje już w bibliotece!"
+                            return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
 
-                return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
+                    fs = FileSystemStorage()
+                    fs.save(musicUpload.name, musicUpload)
+                    msg = "Utwór został dodany!"
+                    print(musicUpload.name)
+                    print(fs.base_location)
+
+                    piosenka = Song(title=(musicUpload.name).split('.')[0])
+                    piosenka.save()
+
+                    return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
+                else:
+                    msg = "Wybierz plik mp3!"
+                    return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
             except:
                 msg = "Nie udało się!"
                 return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
 
-        return render(request, 'nextgenmusic/paneladmin.html')
+    return render(request, 'nextgenmusic/paneladmin.html'
