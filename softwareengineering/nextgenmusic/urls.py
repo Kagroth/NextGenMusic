@@ -20,6 +20,7 @@ urlpatterns = [
     path('addToPlaylist/', views.addSongToPlaylist, name='addSongToPlaylist'),
     path('removeFromPlaylist/', views.removeFromPlaylist, name='removeFromPlaylist'),
     path('paneladmin/', views.paneladmin, name='paneladmin'),
+    path('listenCountUpdate/', views.listenCountUpdate, name='listenCountUpdate'),
 ]
 
 if settings.DEBUG:

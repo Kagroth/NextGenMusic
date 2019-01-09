@@ -8,7 +8,7 @@ from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
 from .utils import calculateSongDuration, getSongDataAsDict
-from .models import Playlist, Song
+from .models import Playlist, Song, Listen_count
 from django.core.files.storage import FileSystemStorage
 
 import os
@@ -340,3 +340,40 @@ def paneladmin(request):
                 return render(request, 'nextgenmusic/paneladmin.html', {'msg': msg})
 
     return render(request, 'nextgenmusic/paneladmin.html')
+
+# Funkcja odpowiedzialna za zwiekszenie liczby odtworzen danego utworu o 1
+def listenCountUpdate(request):
+    if not request.is_ajax():
+        return redirect('index')
+
+    if request.user.is_authenticated:
+        if request.POST.get("songName") is not None:
+            debug = "Rozpoczynam"
+            try:
+                songName = request.POST.get("songName")
+                print(songName)
+                debug = "Przed pobraniem piosenki"
+                song = Song.objects.get(title=songName)
+                debug = "Po pobraniu piosenki"
+                counter = None
+
+                try:
+                    counter = Listen_count.objects.get(id_user=request.user, id_song=song)
+                    counter.count += 1
+                except:
+                    counter = Listen_count.objects.create(id_user=request.user, id_song=song)
+                    counter.count = 1
+
+                debug = "Przed zapisem"
+                counter.save()
+                debug = "Po zapisie"
+            except Exception as e:
+                print(e)
+                print(debug)
+                return JsonResponse({'message': 'Blad przy powiekszaniu licznika!'})
+
+            return JsonResponse({'message': 'Wszystkie dane sa ok!'})
+        else:
+            return JsonResponse({'message': 'Nie podano nazwy utworu'})
+    else:
+        return redirect('index')

@@ -6,12 +6,27 @@ class Controller
 		this.playPauseButtons = playPauseButtons;
 		this.addToPlaylistForms = addToPlaylistForms;
 		this.actualPlaying = null;
+		this.that = this;
 		console.log("Controller created!");
 	}
 	
+	// formy obslugujace usuwanie z playlist
 	setRemoveFromPlaylistForms(forms)
 	{
 		this.removeFromPlaylistForms = forms;
+	}
+		
+	// ustawienie tokenu csrf
+	setCSRFToken(token)
+	{
+		this.csrfToken = token;
+	}
+
+	// ustawienie nazwy uzytkownika
+	setUsername(name)
+	{
+		console.log(name);
+		this.username = name;
 	}
 	
 	// podpiecie obslugi odgrywania muzyki z glownego listingu utworow
@@ -44,6 +59,7 @@ class Controller
 				
 				this.actualPlaying = button;
 				this.mp3player.play();
+				this.updateListenCount();
 				
 			}, false);
 		}
@@ -117,5 +133,33 @@ class Controller
 				});
 			});
 		}
+	}
+	
+	// wyslanie danych do serwera
+	updateListenCount()
+	{		
+		console.log("Przed wysłaniem: ");
+		console.log(this.csrfToken);
+		console.log(this.actualPlaying.dataset.song_name);
+		
+		let token = this.csrfToken;
+		
+		$.ajax({
+			beforeSend: function(request)
+			{
+				console.log(token);
+				request.setRequestHeader("X-CSRFToken", token);
+			},
+			
+			url: "/listenCountUpdate/",
+			method: "POST", 
+			data: {
+				songName: this.actualPlaying.dataset.song_name.split('.')[0],
+			},
+			success: function(msg)
+			{
+				console.log(msg.message);
+			}
+		});
 	}
 }

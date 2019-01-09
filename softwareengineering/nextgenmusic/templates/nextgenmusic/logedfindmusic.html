@@ -100,6 +100,9 @@
             var player = new MP3Player(new Audio());
             var songs = new Array();
             var controller = new Controller(player, playPauseButtons, addToPlaylistForms);
+            controller.setUsername('{{request.user.username}}');
+            console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value);
+            controller.setCSRFToken(document.querySelector('input[name="csrfmiddlewaretoken"]').value);
             controller.bindPlayPauseEvent();
             controller.bindAddToPlaylistEvent();
         }
