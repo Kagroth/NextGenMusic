@@ -3,6 +3,7 @@ class Controller
 	constructor(mp3player, playPauseButtons, addToPlaylistForms)
 	{
 		this.mp3player = mp3player;
+		this.mp3player.controller = this;
 		this.playPauseButtons = playPauseButtons;
 		this.addToPlaylistForms = addToPlaylistForms;
 		this.actualPlaying = null;
@@ -10,6 +11,20 @@ class Controller
 		console.log("Controller created!");
 	}
 	
+	// przycisk odpalajacy konkretny utwor
+	setPlayPlaylistEvent(buttons)
+	{
+		this.playPlaylistButtons = buttons;
+		
+		for(let button of this.playPlaylistButtons)
+		{
+			let playButton = button;
+			
+			button.addEventListener('click', () => {
+				this.mp3player.playPlaylist(playButton.dataset.song_id - 1);				
+			}, false);
+		}
+	}
 	// formy obslugujace usuwanie z playlist
 	setRemoveFromPlaylistForms(forms)
 	{
@@ -27,6 +42,12 @@ class Controller
 	{
 		console.log(name);
 		this.username = name;
+	}
+	
+	// ustawienie playlisty odtwarzania
+	setPlaylist(playlist)
+	{
+		this.mp3player.setPlaylist(playlist);
 	}
 	
 	// podpiecie obslugi odgrywania muzyki z glownego listingu utworow
@@ -104,43 +125,97 @@ class Controller
 	// podpiecie obslugi usuniecia utworu z Playlisty
 	bindRemoveFromPlaylistEvent()
 	{
+		let controller = this;
+		let formWithPlaylistName;
+		let songName;
+				
 		for(let form of this.removeFromPlaylistForms)
 		{
 			form.addEventListener("submit", (e) => {
-				e.preventDefault();
-				let songName = form.querySelector('.removeFromPlaylistButton').dataset.song_name.split('.')[0];
+				e.preventDefault();			
+				
+				formWithPlaylistName = form;
+				songName = form.querySelector('.removeFromPlaylistButton').dataset.song_name.split('.')[0];
 				
 				console.log(form.playlistName.value);
 				console.log(songName);
 				console.log("Bede usuwal utwor z playlisty!!");
 				
-				$.ajax({
-					beforeSend: function(request)
-					{
-						request.setRequestHeader("X-CSRFToken", form.csrfmiddlewaretoken.value);
-					},
-					
-					url: "/removeFromPlaylist/",
-					method: "POST",
-					data: {
-						playlistName: form.playlistName.value,
-						songName: songName
-					},
-					success: function(msg)
-					{
-						location.href = "/myprofile/" + form.playlistName.value + "/";
-					}
-				});
 			});
 		}
+		
+		// podpiecie obslugi 
+		$('.removeFromPlaylistButton').click(function () {
+				$('.check').css({
+					visibility: 'visible'
+				}).animate({
+					top: this.clientY,
+					left: '50%',
+					width: 400,
+					opacity: 1
+				});
+					
+				document.querySelector('#removeConfirm').addEventListener('click', () => {
+					controller.removeFromPlaylist(formWithPlaylistName, songName);
+				}, false);
+					
+				document.querySelector('#removeReject').addEventListener('click', () => {
+					$('.check').css({
+						visibility: 'hidden',
+						left: '75%',
+						opacity: 0
+					});
+					
+					formWithPlaylistName = null;
+					songName = null;
+				}, false);
+					
+		});
+	}
+	
+	// wysyla request z usunieciem utworu z playlisty
+	removeFromPlaylist(formWithPlaylistName, songName)
+	{
+		$.ajax({
+			beforeSend: function(request)
+			{
+				request.setRequestHeader("X-CSRFToken", formWithPlaylistName.csrfmiddlewaretoken.value);
+			},
+			
+			url: "/removeFromPlaylist/",
+			method: "POST",
+			data: {
+				playlistName: formWithPlaylistName.playlistName.value,
+				songName: songName
+			},
+			success: function(msg)
+			{
+				location.href = "/myprofile/" + formWithPlaylistName.playlistName.value + "/";
+			},
+			error: function(msg)
+			{
+				alert("Nie udalo sie usunac utworu!");
+			}
+		});
 	}
 	
 	// wyslanie danych do serwera
-	updateListenCount()
-	{		
+	updateListenCount(song)
+	{
+		let songToUpdate;
+		
+		if(song !== undefined)
+		{			
+			songToUpdate = song.getFilename();
+		}
+		else
+		{
+			songToUpdate = this.actualPlaying.dataset.song_name.split('.')[0];
+		}
+		
 		console.log("Przed wysłaniem: ");
 		console.log(this.csrfToken);
-		console.log(this.actualPlaying.dataset.song_name);
+		console.log(songToUpdate);
 		
 		let token = this.csrfToken;
 		
@@ -154,7 +229,7 @@ class Controller
 			url: "/listenCountUpdate/",
 			method: "POST", 
 			data: {
-				songName: this.actualPlaying.dataset.song_name.split('.')[0],
+				songName: songToUpdate
 			},
 			success: function(msg)
 			{

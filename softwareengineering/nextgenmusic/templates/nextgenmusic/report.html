@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <link rel="Shortcut icon" href="{% static 'nextgenmusic/images/logo.ico' %}" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Next Generation Music - nowoczesny portal streamingowy">
+        <meta name="author" content="Kamil Bania, Mateusz Gawlak, Paweł Durda, Adrian Gajewski, Wojciech Gałka">
+
+        <title>NGM - Free Streaming Service</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'nextgenmusic/css/bootstrap.css' %}" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="{% static 'nextgenmusic/css/NMG.css' %}" rel="stylesheet" type="text/css">
+
+    </head>
+
+    <body class="bg-black" id="page-top">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'index' %}"> <img src="{% static 'nextgenmusic/images/logo.png' %}" width="30" height="30" alt="logo"> Next Gen Music</a>
+            <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'viewsongs'%}">
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Znajdź</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            </div>
+            <a class="navbar-brand" href="{% url 'profile' %}"> {{ request.user.username }} </a>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col 1"></div>
+                <div class="col 10">
+                    <div id="chartContainer" style="height: auto; min-width: 1000px; margin: 0px auto;"></div>
+                </div>
+                <div class="col 1"></div>
+            </div>
+        </div>
+    </body>
+    <script src="{% static 'nextgenmusic/js/canvasjs.min.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/canvasjs.react.js' %}"></script>
+    <script src="{% static 'nextgenmusic/js/jquery.canvasjs.min.js' %}"></script>
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "dark2", // "light1", "light2", "dark1", "dark2"
+                title:{
+                    text: "Najchętniej słuchane utwory"
+                },
+                axisY: {
+                    title: "Liczba odsłuchań"
+                },
+                data: [{
+                    type: "column",
+                    showInLegend: true,
+                    legendMarkerColor: "grey",
+                    legendText: " ",
+                    dataPoints: [
+                        {% for song in songs%}
+                        { y: {{song.listen_count}}, label: "{{song.artist.0}} - {{song.title}}" },
+                        {% endfor %}
+                    ]
+                }]
+            });
+            chart.render();
+}
+</script>
+</html>

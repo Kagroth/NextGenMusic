@@ -21,6 +21,7 @@ urlpatterns = [
     path('removeFromPlaylist/', views.removeFromPlaylist, name='removeFromPlaylist'),
     path('paneladmin/', views.paneladmin, name='paneladmin'),
     path('listenCountUpdate/', views.listenCountUpdate, name='listenCountUpdate'),
+    path('raport/', views.raport, name='raport'),
 ]
 
 if settings.DEBUG:

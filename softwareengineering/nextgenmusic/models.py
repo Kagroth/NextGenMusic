@@ -43,4 +43,7 @@ class Listen_count(models.Model):
     count = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
+        return self.id_user.username + " - " + self.id_song.title + " == " + str(self.count)
+
+    def __str__(self):
         return self.id_user.username + " - " + self.id_song.title

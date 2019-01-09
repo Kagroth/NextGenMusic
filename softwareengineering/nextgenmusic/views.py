@@ -10,6 +10,7 @@ from datetime import timedelta
 from .utils import calculateSongDuration, getSongDataAsDict
 from .models import Playlist, Song, Listen_count
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Sum
 
 import os
 
@@ -375,5 +376,47 @@ def listenCountUpdate(request):
             return JsonResponse({'message': 'Wszystkie dane sa ok!'})
         else:
             return JsonResponse({'message': 'Nie podano nazwy utworu'})
+    else:
+        return redirect('index')
+
+# Widok raportu dotyczącego najchetniej sluchanych utworów
+def raport(request):
+    if request.user.is_authenticated:
+        try:
+            message = "Przed rankingkiem"
+            ranking = Listen_count.objects.values('id_song__title').annotate(ilosc_odtworzen=Sum('count')).order_by('-ilosc_odtworzen')[:5]
+            message = "Po rankingu"
+            print(ranking)
+            songs = []
+            songsPaths = []
+            id = 1
+            message = "Przed sciezkami"
+            currDir = os.path.dirname(__file__)
+            projectDir = os.path.abspath(os.path.dirname(currDir))
+            pathWithMusic = os.path.join(projectDir, 'nextgenmusic/static/nextgenmusic/music')
+            message = "Po sciezkach przed petla"
+
+            for dict in ranking:
+                songsPaths.append(pathWithMusic + "/" + dict['id_song__title'] + ".mp3")
+
+            message = "Po uzupelnieniu songsPaths"
+
+            for songPath in songsPaths:
+                print(songPath)
+                musicFile = Path(songPath)
+                print(musicFile)
+                duration = calculateSongDuration(musicFile)
+                s = getSongDataAsDict(musicFile, duration, id)
+                s['listen_count'] = ranking[id-1]['ilosc_odtworzen']
+                print(s)
+                songs.append(s)
+                id += 1
+
+        except:
+            ranking = None
+            print(message)
+
+        print(songs)
+        return render(request, 'nextgenmusic/report.html', {'user': request.user, 'ranking': ranking, 'songs': songs})
     else:
         return redirect('index')
