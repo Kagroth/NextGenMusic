@@ -14,7 +14,10 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="/css/NMG.css" rel="stylesheet" type="text/css">
-        <link href="css/fonts/awesome/css/all.css" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+ 
+
 
     </head>
 
@@ -56,6 +59,7 @@
                             <button class="btn btn-secondary" type="button" id="inputGroupFileAddon03">Prześlij</button>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="row">
@@ -138,5 +142,18 @@
                 </div>
             </div>
         </div>
+        <div class="custom-file" id="customFile" lang="es">
+            <input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
+            <label class="custom-file-label" for="exampleInputFile">
+                Select file...
+            </label>
+        </div>
+        <script>
+            $('.custom-file-input').on('change', function () {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+        </script>
+
     </body>
 </html>

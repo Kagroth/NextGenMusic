@@ -16,3 +16,78 @@
     width: 100px;
     float: left;
 }
+
+
+.btn-delete {
+  color: #fff;
+  background-color: #850bfe;
+  border-color: #850bfe;
+}
+
+.btn-delete:hover {
+  color: #fff;
+  background-color: #6e01da;
+  border-color: #6e01da;
+}
+
+.btn-delete:focus, .btn-delete.focus {
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0);
+}
+
+.btn-delete.disabled, .btn-delete:disabled {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  
+}
+
+.btn-delete:not(:disabled):not(.disabled):active, .btn-delete:not(:disabled):not(.disabled).active,
+.show > .btn-delete.dropdown-toggle {
+  color: #fff;
+  background-color: #6401c6;
+  border-color: #6401c6;
+}
+
+.btn-delete:not(:disabled):not(.disabled):active:focus, .btn-delete:not(:disabled):not(.disabled).active:focus,
+.show > .btn-delete.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0);
+}
+
+.transform {
+    transition-duration: 1s
+}
+
+.transform-next {
+    width: 40px;
+    background-color: red;
+}
+
+.check {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  right: 10%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1060;
+  display: block;
+  max-width: 276px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  white-space: normal;
+  line-break: auto;
+  font-size: 0.875rem;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+}

@@ -13,8 +13,9 @@
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
         <!-- Custom styles for this template -->
-        <link href="/css/NMG.css" rel="stylesheet" type="text/css">
+        <link href="css/ngm.css" rel="stylesheet" type="text/css">
         <link href="css/fonts/awesome/css/all.css" rel="stylesheet">
+        <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 
     </head>
 
@@ -35,6 +36,11 @@
         <br>
         <br> 
         <br>
+        <div class="check text-center">
+            <p class="text-danger font-weight-bold">Użytkowniku jesteś pewien ze chcesz usunąc dany element?</p>
+            <button class="btn btn-danger btn-sm mb-2"> TAK </button>
+            <button class="btn btn-secondary btn-sm mb-2" > Chyba </button>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
@@ -82,7 +88,7 @@
                                 <td>21</td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm" > <img src="css/icons/stop.png" alt="delete" width="20" height="20"> </button>
-                                    <button class="btn btn-secondary btn-sm" > <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
+                                    <button id="button" class="btn btn-sm btn-secondary" onclick="areyousure()"> <img src="css/icons/remove.png" alt="delete" width="20" height="20"> </button> 
                                 </td>
                             </tr>
                         </tbody>
@@ -94,5 +100,19 @@
             <source src="xd.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
+        <script>
+
+            $('#button').click(function () {
+                $('.check').css({
+                    visibility: 'visible'
+                }).animate({
+                    top: this.clientY,
+                    left: '50%',
+                    width: 400,
+                    opacity: 1
+                });
+            });
+
+        </script>
     </body>
 </html>
