@@ -1,7 +1,7 @@
 from django.test import RequestFactory, SimpleTestCase, Client
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User, AnonymousUser
-from nextgenmusic.views import playlist, profile, logoutuser, viewsongs, index, joinus, profile, signup, loginuser
+from nextgenmusic.views import playlist, createPlaylist, profile, logoutuser, viewsongs, index, joinus, profile, signup, loginuser
 from nextgenmusic.models import Playlist
 from mixer.backend.django import mixer
 import pytest
@@ -182,5 +182,40 @@ class TestViews:
         request.user = u
 
         response = playlist(request, 'tej_nazwy_nie_ma')
+
+        assert (response.status_code == 302)
+
+
+    #Test widoku createPlaylist
+    def test_createPlaylist_anonymous_user(self):
+        request = RequestFactory().get(reverse('createPlaylist'))
+        request.user = AnonymousUser()
+
+        response = createPlaylist(request)
+
+        assert (response.status_code == 302)
+
+    def test_createPlaylist_logeduser_wrong_http_method(self):
+        c = Client()
+        response = c.get(reverse('createPlaylist'))
+
+        assert (response.status_code == 302)
+
+    def test_createPlaylist_logeduser_no_post_data(self):
+        c = Client()
+        response = c.post(reverse('createPlaylist'),
+                          {'playlistName': ""})
+
+        assert(response.status_code == 302)
+
+    def test_createPlaylist_logeduser_success(self):
+        c = Client()
+        u = User.objects.create_user(username='kamil', password='qwerty')
+        u.save()
+
+        logged_in = c.login(username='kamil', password='qwerty')
+
+        response = c.post(reverse('createPlaylist'),
+                          {'playlistName': "abcd"})
 
         assert (response.status_code == 302)
