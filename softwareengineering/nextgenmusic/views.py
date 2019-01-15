@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from pathlib import Path
 from mutagen.mp3 import EasyMP3
 from datetime import timedelta
-from .utils import calculateSongDuration, getSongDataAsDict
+from .utils import calculateSongDuration, getSongDataAsDict, getTopSongs
 from .models import Playlist, Song, Listen_count
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Sum
@@ -133,17 +133,24 @@ def logoutuser(request):
 # widok profilu uzytkownika
 def profile(request):
     if request.user.is_authenticated:
+        topPlaylist = "Najpopularniejsze w serwisie"
         try:
             playlists = Playlist.objects.filter(id_user=request.user)
         except:
             playlists = None
-        return render(request, 'nextgenmusic/myprofile.html', {'user': request.user, 'playlists': playlists})
+        return render(request, 'nextgenmusic/myprofile.html', {'user': request.user, 'topPlaylist': topPlaylist, 'playlists': playlists})
     else:
         return redirect('index')
 
 # wyświetla dane zawarte w playliscie - nazwe i liste piosenek
 def playlist(request, playlist_name):
     if request.user.is_authenticated:
+        if playlist_name == "Najpopularniejsze w serwisie":
+            playlist = {'name': playlist_name}
+            songs = getTopSongs()
+            return render(request, 'nextgenmusic/playlist.html',
+                         {'user': request.user, 'playlist': playlist, 'songs': songs})
+
         print("Bede pobieral playliste!")
         try:
             print("Bede pobieral playliste!")
@@ -382,41 +389,12 @@ def listenCountUpdate(request):
 # Widok raportu dotyczącego najchetniej sluchanych utworów
 def raport(request):
     if request.user.is_authenticated:
+        songs = None
         try:
-            message = "Przed rankingkiem"
-            ranking = Listen_count.objects.values('id_song__title').annotate(ilosc_odtworzen=Sum('count')).order_by('-ilosc_odtworzen')[:5]
-            message = "Po rankingu"
-            print(ranking)
-            songs = []
-            songsPaths = []
-            id = 1
-            message = "Przed sciezkami"
-            currDir = os.path.dirname(__file__)
-            projectDir = os.path.abspath(os.path.dirname(currDir))
-            pathWithMusic = os.path.join(projectDir, 'nextgenmusic/static/nextgenmusic/music')
-            message = "Po sciezkach przed petla"
-
-            for dict in ranking:
-                songsPaths.append(pathWithMusic + "/" + dict['id_song__title'] + ".mp3")
-
-            message = "Po uzupelnieniu songsPaths"
-
-            for songPath in songsPaths:
-                print(songPath)
-                musicFile = Path(songPath)
-                print(musicFile)
-                duration = calculateSongDuration(musicFile)
-                s = getSongDataAsDict(musicFile, duration, id)
-                s['listen_count'] = ranking[id-1]['ilosc_odtworzen']
-                print(s)
-                songs.append(s)
-                id += 1
-
+            songs = getTopSongs()
         except:
-            ranking = None
-            print(message)
-
+            songs = None
         print(songs)
-        return render(request, 'nextgenmusic/report.html', {'user': request.user, 'ranking': ranking, 'songs': songs})
+        return render(request, 'nextgenmusic/report.html', {'user': request.user, 'songs': songs})
     else:
         return redirect('index')

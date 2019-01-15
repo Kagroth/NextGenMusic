@@ -92,6 +92,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% if topPlaylist is not None %}
+                            <tr>
+                                 <td>
+                                    <div class="form-row">
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-10">
+                                            <label for="colFormLabel" class="col-form-label">
+                                                <a href="{% url 'playlist' topPlaylist %}" class="text-white">{{ topPlaylist }}</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
                         {% for playlist in playlists %}
                             <tr>
                                 <td>

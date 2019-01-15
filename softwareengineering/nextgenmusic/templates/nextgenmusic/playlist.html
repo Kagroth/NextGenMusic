@@ -117,17 +117,26 @@
             {% endfor %}
 
             var playSongButtons = document.querySelectorAll('.playSongButton');
-            var removeFromPlaylistForms = document.querySelectorAll('.removeFromPlaylistForm');
-
-            var volumeButton = document.querySelector('#volume');
-
             var player = new MP3Player(new Audio());
             var songs = new Array();
             var controller = new Controller(player);
 
+            {% if playlist.name != "Najpopularniejsze w serwisie" %}
+                var removeFromPlaylistForms = document.querySelectorAll('.removeFromPlaylistForm');
+                controller.setRemoveFromPlaylistForms(removeFromPlaylistForms);
+                controller.bindRemoveFromPlaylistEvent();
+            {% else %}
+                var removeFromPlaylistForms = document.querySelectorAll('.removeFromPlaylistForm');
+                for(let frm of removeFromPlaylistForms)
+                {
+                    frm.removeChild(frm.querySelector('.removeFromPlaylistButton'));
+                }
+            {% endif %}
+
+            var volumeButton = document.querySelector('#volume');
+
             controller.setCSRFToken(document.querySelector('input[name="csrfmiddlewaretoken"]').value);
-            controller.setRemoveFromPlaylistForms(removeFromPlaylistForms);
-            controller.bindRemoveFromPlaylistEvent();
+
             controller.setPlaylist(new Playlist(songList));
             controller.setPlayPlaylistEvent(playSongButtons);
 
