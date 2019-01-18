@@ -235,13 +235,13 @@ def changePlaylistName(request):
             newName = request.POST.get('newPlaylistName')
 
             pl = Playlist.objects.get(id_user=request.user, name=oldName)
-            isExist = Playlist.objects.get(id_user=request.user, name=newName).exists()
 
-            if isExist:
+            try:
+                isExist = Playlist.objects.get(id_user=request.user, name=newName).exists()
                 return redirect('editPlaylistName', oldName)
-
-            pl.name = newName
-            pl.save()
+            except:
+                pl.name = newName
+                pl.save()
 
             return redirect('profile')
         else:
